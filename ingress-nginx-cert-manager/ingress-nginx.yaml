@@ -1,0 +1,28 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: app-1
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: selfsigned-issuer
+    #cert-manager.io/cluster-issuer: letsencrypt-staging
+    #cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - host: app-1.zasda.lab
+    http:
+      paths:
+      - path: /whoami 
+        backend:
+          serviceName: whoami
+          servicePort: 80
+      - path: /hello
+        backend:
+          serviceName: hello
+          servicePort: 80
+  tls:
+  - hosts:
+    - app-1.zasda.lab
+    secretName: ingress-cert
+
